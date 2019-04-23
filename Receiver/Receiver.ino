@@ -3,7 +3,7 @@
 enum Interval {
   kIntervalMinimumConfirmed = 10, //ms
   kIntervalHumanObservable = 100,  //ms
-  kTest = 500
+  kTest = 5
 };
 
 /// put your setup code here, to run once:

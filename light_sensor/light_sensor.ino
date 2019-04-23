@@ -1,27 +1,30 @@
-#define EXTERNAL_LED 8
-#define ONBOARD_LED 13
-enum Interval {
-  kIntervalMinimumConfirmed = 10, //ms
-  kIntervalHumanObservable = 100,  //ms
-  kTest = 500
-};
+int analogPin = 0;
+float last = 0.0;
+float threshold = 3.0;
 
-/// put your setup code here, to run once:
 void setup() {
-  pinMode(EXTERNAL_LED, OUTPUT);
-  pinMode(ONBOARD_LED, OUTPUT);
   Serial.begin(9600);
 }
 
-/// put your main code here, to run repeatedly:
 void loop() {
-  unsigned long t1 = millis();
-  digitalWrite(EXTERNAL_LED, HIGH);
-  digitalWrite(ONBOARD_LED, HIGH);
-  delay(kTest);
+  int lightLevel = analogRead(analogPin);
+  float voltage = lightLevel * (5.0 / 1024.0);
+
+//  if (voltage > threshold) {
+//    Serial.println(1);
+//  }
+//  else {
+//    Serial.println(0);
+//  }
   
-  digitalWrite(EXTERNAL_LED, LOW);
-  digitalWrite(ONBOARD_LED, LOW);
-  delay(kTest);
-  Serial.println(millis() - t1);
+  if (last < threshold && voltage > threshold) {
+    Serial.println(1);
+  }
+  else if (last > threshold && voltage < threshold) {
+    Serial.println(0);
+  }
+  else {
+    Serial.println(9);
+  }
+  last = voltage;
 }
